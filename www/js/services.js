@@ -15,7 +15,7 @@ angular.module('starter')
       setUser: setUser
     };
   })
-  .service('AuthService', function($q, $http, USER_ROLES) {
+  .service('AuthService', function($q, $http, USER_ROLES, API_ENDPOINTS) {
     var LOCAL_TOKEN_KEY = 'yourTokenKey';
     var email = '';
     var isAuthenticated = false;
@@ -38,16 +38,15 @@ angular.module('starter')
       email = token.split('.')[0];
       isAuthenticated = true;
       authToken = token;
-
-      if (email == 'admin') {
-        role = USER_ROLES.admin
-      }
-      if (email == 'user') {
-        role = USER_ROLES.public
-      }
+      role = USER_ROLES.public
+      //if (email == 'admin') {
+      //  role = USER_ROLES.admin
+      //}
+      //if (email == 'user') {
+      //}
 
       // Set the token as header for your requests!
-      $http.defaults.headers.common['X-Auth-Token'] = token;
+      $http.defaults.headers.common['X-Auth-Token'] = token; // 'email.token'
     }
 
     function destroyUserCredentials() {
@@ -60,14 +59,52 @@ angular.module('starter')
 
     var login = function(email, pw) {
       return $q(function(resolve, reject) {
-        // make call to allpolls and get response
-        if ((email == 'admin' && pw == '1') || (email == 'user' && pw == '1')) {
-          // Make a request and receive your auth token from your server
-          storeUserCredentials(email + '.yourServerToken');
+        // make call to allpolls and try to authenticate user
+        var data = new FormData;
+        data.append('email', email);
+        data.append('password', pw);
+
+        $http({
+          url: API_ENDPOINTS.sessions,
+          method: 'POST',
+          data: data,
+          transformRequest: false,
+          headers: { 'Content-Type': undefined }
+        }).then(function(response) {
+          access_token = response.data.access_token;
+          //email = response.data.email;
+          //token_type = response.data.token_type;
+          storeUserCredentials(email + '.' + access_token);
           resolve('Login success.');
-        } else {
+        }, function(error) {
+          //console.log(error.data);
           reject('Login Failed.');
-        }
+        });
+      });
+    };
+
+    var register = function(email, username, password, password_confirmation) {
+      return $q(function(resolve, reject) {
+        // make call to allpolls and try to authenticate user
+        var data = new FormData;
+        data.append('email', email);
+        data.append('username', username);
+        data.append('password', password);
+        data.append('password_confirmation', password_confirmation);
+
+        $http({
+          url: API_ENDPOINTS.registrations,
+          method: 'POST',
+          data: data,
+          transformRequest: false,
+          headers: { 'Content-Type': undefined }
+        }).then(function(response) {
+          access_token = response.data.access_token;
+          storeUserCredentials(email + '.' + access_token);
+          resolve('Registration success.');
+        }, function(error) {
+          reject('Registration Failed.');
+        });
       });
     };
 
@@ -88,6 +125,7 @@ angular.module('starter')
       login: login,
       logout: logout,
       isAuthorized: isAuthorized,
+      register: register,
       isAuthenticated: function() {return isAuthenticated;},
       email: function() {return email;},
       role: function() {return role;}

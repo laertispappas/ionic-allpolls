@@ -77,17 +77,25 @@ angular.module('starter')
     $scope.data = {};
 
     $scope.register = function(data) {
-
+      AuthService.register(data.email, data.username, data.password, data.password_confirmation).then(function(authenticated) {
+        $state.go('main.dash', {}, {reload: true});
+        $scope.setCurrentEmail(data.email);
+      }, function(err) {
+        var alertPopup = $ionicPopup.alert({
+          title: 'Register failed!',
+          template: 'Please try again!'
+        });
+      });
     };
   })
-  .controller('DashCtrl', function($scope, $state, $http, $ionicPopup, AuthService) {
+  .controller('DashCtrl', function($scope, $state, $http, $ionicPopup, AuthService, API_ENDPOINTS) {
     $scope.logout = function() {
       AuthService.logout();
-      $state.go('login');
+      $state.go('welcome');
     };
 
     $scope.performValidRequest = function() {
-      $http.get('http://localhost:8100/valid').then(
+      $http.get(API_ENDPOINTS.polls).then(
         function(result) {
           $scope.response = result;
         });
