@@ -61,7 +61,6 @@ angular.module('starter')
     var login = function(email, pw) {
       return $q(function(resolve, reject) {
         // make call to allpolls and get response
-
         if ((email == 'admin' && pw == '1') || (email == 'user' && pw == '1')) {
           // Make a request and receive your auth token from your server
           storeUserCredentials(email + '.yourServerToken');

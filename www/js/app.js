@@ -88,6 +88,7 @@ angular.module('starter', ['ionic', 'ngMockE2E'])
 
     $httpBackend.whenGET(/templates\/\w+.*/).passThrough();
   })
+
   //.run(function($httpBackend){
   //  $httpBackend.whenGET(/templates\/\w+.*/).passThrough();
   //})
@@ -105,7 +106,7 @@ angular.module('starter', ['ionic', 'ngMockE2E'])
       }
       if (!AuthService.isAuthenticated()) {
         if ((next.name === 'login') || (next.name === 'register')) {
-          $state.go(next.name);
+          $state.go(next.name, {}, {notify: false});
         }
         else if (next.name !== 'welcome') {
           event.preventDefault();
@@ -113,4 +114,4 @@ angular.module('starter', ['ionic', 'ngMockE2E'])
         }
       }
     });
-  })
+  });

@@ -34,6 +34,8 @@ angular.module('starter')
       $ionicLoading.show({
         template: 'Logging in...'
       });
+
+      // this causes an exception
       window.plugins.googleplus.login(
         {},
         function (user_data) {
