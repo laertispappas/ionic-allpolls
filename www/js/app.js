@@ -23,10 +23,20 @@ angular.module('starter', ['ionic', 'ngMockE2E'])
   })
   .config(function ($stateProvider, $urlRouterProvider, USER_ROLES) {
     $stateProvider
+      .state('welcome', {
+        url: '/welcome',
+        templateUrl: 'templates/welcome.html',
+        controller: 'WelcomeCtrl'
+      })
       .state('login', {
         url: '/login',
         templateUrl: 'templates/login.html',
         controller: 'LoginCtrl'
+      })
+      .state('register', {
+        url: '/register',
+        templateUrl: 'templates/register.html',
+        controller: 'RegisterCtrl'
       })
       .state('main', {
         url: '/',
@@ -81,6 +91,8 @@ angular.module('starter', ['ionic', 'ngMockE2E'])
   //.run(function($httpBackend){
   //  $httpBackend.whenGET(/templates\/\w+.*/).passThrough();
   //})
+
+  // $urlRouteProvider.when('', '/start').when('/', '/start').otherwise('/404');
   .run(function ($rootScope, $state, AuthService, AUTH_EVENTS) {
     $rootScope.$on('$stateChangeStart', function (event,next, nextParams, fromState) {
       if ('data' in next && 'authorizedRoles' in next.data) {
@@ -91,11 +103,13 @@ angular.module('starter', ['ionic', 'ngMockE2E'])
           $rootScope.$broadcast(AUTH_EVENTS.notAuthorized);
         }
       }
-
       if (!AuthService.isAuthenticated()) {
-        if (next.name !== 'login') {
+        if ((next.name === 'login') || (next.name === 'register')) {
+          $state.go(next.name);
+        }
+        else if (next.name !== 'welcome') {
           event.preventDefault();
-          $state.go('login');
+          $state.go('welcome');
         }
       }
     });

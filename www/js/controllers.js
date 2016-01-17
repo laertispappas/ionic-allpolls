@@ -1,6 +1,6 @@
 angular.module('starter')
   .controller('AppCtrl', function($scope, $state, $ionicPopup, AuthService, AUTH_EVENTS) {
-    $scope.username = AuthService.username();
+    $scope.email = AuthService.email();
 
     $scope.$on(AUTH_EVENTS.notAuthorized, function(event) {
       var alertPopup = $ionicPopup.alert({
@@ -18,23 +18,64 @@ angular.module('starter')
       });
     });
 
-    $scope.setCurrentUsername = function(name) {
-      $scope.username = name;
+    $scope.setCurrentEmail = function(name) {
+      $scope.email = name;
+    };
+  })
+  .controller('WelcomeCtrl', function($scope, $state, UserService, $ionicLoading, $ionicModal) {
+    // allpolls sign in
+    $scope.allpollsSignIn = function(){
+      $ionicLoading.hide();
+      $state.go('login', {}, {reload: true});
+    };
+
+    // This method is executed when the user press the "Sign in with Google" button
+    $scope.googleSignIn = function() {
+      $ionicLoading.show({
+        template: 'Logging in...'
+      });
+      window.plugins.googleplus.login(
+        {},
+        function (user_data) {
+          // For the purpose of this example I will store user data on local storage
+          UserService.setUser({
+            userID: user_data.userId,
+            name: user_data.displayName,
+            email: user_data.email,
+            picture: user_data.imageUrl,
+            accessToken: user_data.accessToken,
+            idToken: user_data.idToken
+          });
+
+          $ionicLoading.hide();
+          $state.go('main.dash', {}, {reload: true});
+        },
+        function (msg) {
+          $ionicLoading.hide();
+        }
+      );
     };
   })
   .controller('LoginCtrl', function($scope, $state, $ionicPopup, AuthService) {
     $scope.data = {};
 
     $scope.login = function(data) {
-      AuthService.login(data.username, data.password).then(function(authenticated) {
+      AuthService.login(data.email, data.password).then(function(authenticated) {
         $state.go('main.dash', {}, {reload: true});
-        $scope.setCurrentUsername(data.username);
+        $scope.setCurrentEmail(data.email);
       }, function(err) {
         var alertPopup = $ionicPopup.alert({
           title: 'Login failed!',
           template: 'Please check your credentials!'
         });
       });
+    };
+  })
+  .controller('RegisterCtrl', function($scope, $state, $ionicPopup, AuthService) {
+    $scope.data = {};
+
+    $scope.register = function(data) {
+
     };
   })
   .controller('DashCtrl', function($scope, $state, $http, $ionicPopup, AuthService) {
