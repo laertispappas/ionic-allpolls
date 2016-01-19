@@ -4,6 +4,12 @@
   </ion-nav-buttons>
 
   <ion-content class="padding">
-
+    {{ poll }}
+    <div class="row">
+      <div class="col text-center">
+        <div ng-include src="'templates/partials/_poll.html'">
+        </div>
+      </div>
+    </div>
   </ion-content>
 </ion-view>
