@@ -125,8 +125,9 @@ angular.module('starter')
 
     $scope.updateVote = function(pollId, pollOptionId, voted) {
       if (voted) { return; }
+      pollToVote = AllPollsService.getPollById(pollId);
 
-      AllPollsService.updateVote(pollId, pollOptionId).then(function(result) {
+      AllPollsService.updateVote(pollToVote, pollOptionId).then(function(result) {
         console.log(result);
       }, function (error) {
         console.log(error.data);
@@ -141,7 +142,7 @@ angular.module('starter')
     $scope.updateVote = function(pollId, pollOptionId, voted) {
       if (voted) { return; }
 
-      AllPollsService.updateVote(pollId, pollOptionId).then(function(result) {
+      AllPollsService.updateVote(AllPollsService.poll(), pollOptionId).then(function(result) {
         console.log(result);
       }, function (error) {
         console.log(error.data);

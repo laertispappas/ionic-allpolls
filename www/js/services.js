@@ -132,30 +132,65 @@ angular.module('starter')
     };
   })
   .factory('AllPollsService', function($http, API_ENDPOINTS) {
-    var pollsData = [];
+    var polls = [];
+    var poll = null;
 
+    var getPollByIndex = function(index) {
+      return polls[index]
+    };
+
+    var getPollById = function (id) {
+      for(i = 0; i < polls.length; i++) {
+        if (polls[i].id == id) {
+          return polls[i];
+        }
+      }
+      return null;
+    };
+
+    var updatePollVote = function (poll, optionId) {
+      if (poll.poll_options[0].id === optionId) {
+        poll.poll_options[0].voted = !poll.poll_options[0].voted;
+        if (poll.poll_options[1].voted === true) {
+          poll.poll_options[1].voted = false;
+        }
+      } else {
+        poll.poll_options[1].voted = !poll.poll_options[1].voted;
+
+        if (poll.poll_options[0].voted === true) {
+          poll.poll_options[0].voted = false;
+        }
+      }
+    };
     return {
       getPolls: function() {
         return $http.get(API_ENDPOINTS.polls).then(
           function(result) {
-            pollsData = result.data.polls;
-            return pollsData;
+            polls = result.data.polls;
+            return polls;
           });
       },
       getPoll: function(poll_id) {
         return $http.get(API_ENDPOINTS.poll_path + poll_id).then(
           function(result) {
-            return result.data.poll;
+            poll = result.data.poll;
+            return poll;
           });
       },
-      updateVote: function(pollId, pollOptionId) {
-        endpoint = API_ENDPOINTS.update_vote.replace(':poll_id', pollId);
+      updateVote: function(poll, pollOptionId) {
+        endpoint = API_ENDPOINTS.update_vote.replace(':poll_id', poll.id);
         endpoint = endpoint.replace(':poll_option_id', pollOptionId);
         return $http.post(endpoint).then(
           function(result) {
+            // update model
+            updatePollVote(poll, pollOptionId);
             console.log(result);
           });
-      }
+      },
+      polls: function() { return polls; },
+      poll:  function() { return poll; },
+      getPollByIndex: getPollByIndex,
+      getPollById: getPollById
     };
   })
   .factory('MyAPIServiceExample', function($http){
