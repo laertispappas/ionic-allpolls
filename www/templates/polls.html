@@ -1,0 +1,83 @@
+<ion-view view-title="All Polls" name="dashboard-view">
+  <ion-nav-buttons side="right">
+    <button class="button icon-left ion-log-out button-stable" ng-click="logout()">Logout</button>
+  </ion-nav-buttons>
+
+  <ion-content class="padding">
+    {{ polls[0] }}
+    <div class="row">
+      <div class="col text-center">
+        <div collection-repeat="poll in polls">
+          <div class="card">
+            <div class="item item-divider">
+              <h2>
+                <a href="#/main/polls/{{poll.slug}}">
+                  {{ poll.title }}
+                </a>
+              </h2>
+              <small>
+                by
+                <a>
+                  {{ poll.created_by }}
+                </a>
+              </small>
+            </div>
+
+            <!-- Poll Option #1 user has voted on poll -->
+            <div class="item item-text-wrap" ng-click="updateVote(poll.id, poll.poll_options[0].id, poll.poll_options[0].voted)" ng-if="poll.current_user_vote !== null">
+              <span>
+                {{ poll.poll_options[0].title }}
+                <small>
+                  {{ poll.poll_options[0].user_answers_count }} votes
+                </small>
+              </span>
+            </div>
+
+            <!-- Option #1 user not voted on poll -->
+            <div class="item item-text-wrap" ng-click="updateVote(poll.id, poll.poll_options[0].id, poll.poll_options[0].voted)" ng-if="poll.current_user_vote === null">
+              <span>
+                {{ poll.poll_options[0].title }}
+                <small>
+                  vote to see results
+                </small>
+              </span>
+            </div>
+
+            <!-- Poll Option #2  user has voted on poll-->
+            <div class="item item-text-wrap" ng-click="updateVote(poll.id, poll.poll_options[1].id, poll.poll_options[1].voted)" ng-if="poll.current_user_vote !== null">
+              <span>
+                {{ poll.poll_options[1].title }}
+                <small>
+                  {{ poll.poll_options[1].user_answers_count }} votes
+                </small>
+              </span>
+            </div>
+            <div class="item item-text-wrap" ng-click="updateVote(poll.id, poll.poll_options[1].id, poll.poll_options[1].voted)" ng-if="poll.current_user_vote === null">
+              <span ng-if="poll.current_user_vote === null">
+                {{ poll.poll_options[1].title }}
+                <small>
+                  vote to see results
+                </small>
+              </span>
+            </div>
+            <!-- footer -->
+            <div class="item item-divider">
+              <div class="row">
+                <div class="col col-50 text-left">
+                  <h3>
+                    {{ poll.user_answers_count }} total votes
+                  </h3>
+                </div>
+                <div class="col col-50 text-right">
+                  <a class="button button-clear button-energized button-small">Share</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <br>
+        </div>
+
+      </div>
+    </div>
+  </ion-content>
+</ion-view>

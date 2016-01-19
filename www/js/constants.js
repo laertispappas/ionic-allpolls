@@ -1,8 +1,10 @@
 angular.module('starter')
   .constant('API_ENDPOINTS', {
-    sessions: 'http://localhost:3000/api/v1/users/sessions',
-    polls: 'http://localhost:3000/api/v1/polls',
-    registrations: 'http://localhost:3000/api/v1/users/registrations'
+    sessions: 'http://localhost:3000/api/v1/users/sessions/',
+    polls: 'http://localhost:3000/api/v1/polls/',
+    registrations: 'http://localhost:3000/api/v1/users/registrations/',
+    poll_path: 'http://localhost:3000/api/v1/polls/',
+    update_vote: 'http://localhost:3000/api/v1/polls/:poll_id/poll_options/:poll_option_id/user_answers'
   })
   .constant('AUTH_EVENTS', {
     loginSuccess: 'auth-login-success',

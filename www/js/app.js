@@ -52,11 +52,21 @@ angular.module('starter', ['ionic'])
           }
         }
       })
-      .state('main.public', {
-        url: 'main/public',
+      .state('main.polls', {
+        url: 'main/polls',
         views: {
-          'public-tab': {
-            templateUrl: 'templates/public.html'
+          'polls-tab': {
+            templateUrl: 'templates/polls.html',
+            controller: 'PollsCtrl'
+          }
+        }
+      })
+      .state('main.poll_page', {
+        url: 'main/polls/:poll_id',
+        views: {
+          'polls-tab': {
+            templateUrl: 'templates/poll_page.html',
+            controller: 'PollPageCtrl'
           }
         }
       })

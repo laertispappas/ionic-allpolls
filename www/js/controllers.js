@@ -97,7 +97,7 @@ angular.module('starter')
     $scope.performValidRequest = function() {
       $http.get(API_ENDPOINTS.polls).then(
         function(result) {
-          $scope.response = result;
+          $scope.response = result.data;
         });
     };
 
@@ -116,6 +116,24 @@ angular.module('starter')
           // No result here..
         }, function(err) {
           $scope.response = err;
-        });
+        }); // end then
     };
+  }).controller('PollsCtrl', function($scope, $state, AllPollsService) {
+    AllPollsService.getPolls().then(function(polls) {
+      $scope.polls = polls;
+    });
+
+    $scope.updateVote = function(pollId, pollOptionId, voted) {
+      if (voted) { return; }
+      AllPollsService.updateVote(pollId, pollOptionId).then(function(result) {
+        console.log(result);
+      }, function (error) {
+        console.log(error.data);
+      });
+    }
+
+  }).controller('PollPageCtrl', function($scope, $state, AllPollsService, $stateParams) {
+    AllPollsService.getPoll($stateParams.poll_id).then(function(poll) {
+      $scope.poll = poll;
+    });
   });

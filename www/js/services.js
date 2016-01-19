@@ -131,6 +131,47 @@ angular.module('starter')
       role: function() {return role;}
     };
   })
+  .factory('AllPollsService', function($http, API_ENDPOINTS) {
+    var pollsData = [];
+
+    return {
+      getPolls: function() {
+        return $http.get(API_ENDPOINTS.polls).then(
+          function(result) {
+            pollsData = result.data.polls;
+            return pollsData;
+          });
+      },
+      getPoll: function(poll_id) {
+        return $http.get(API_ENDPOINTS.poll_path + poll_id).then(
+          function(result) {
+            return result.data.poll;
+          });
+      },
+      updateVote: function(pollId, pollOptionId) {
+        endpoint = API_ENDPOINTS.update_vote.replace(':poll_id', pollId);
+        endpoint = endpoint.replace(':poll_option_id', pollOptionId);
+        return $http.post(endpoint).then(
+          function(result) {
+            console.log(result);
+          });
+      }
+    };
+  })
+  .factory('MyAPIServiceExample', function($http){
+    var apiurl, myData;
+    return {
+      getData: function(){
+        $http.get(apiurl)
+          .success(function(data, status, config, headers){
+            return (myData = data);
+          })
+          .error(function(){ //handler errors here
+          });
+      },
+      data: function() { return myData; }
+    };
+  })
   .factory('AuthInterceptor', function ($rootScope, $q, AUTH_EVENTS) {
     return {
       responseError: function (response) {
