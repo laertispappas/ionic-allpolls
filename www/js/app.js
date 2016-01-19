@@ -124,3 +124,4 @@ angular.module('starter', ['ionic'])
       }
     });
   });
+
