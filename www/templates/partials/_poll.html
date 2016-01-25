@@ -13,37 +13,21 @@
     </small>
   </div>
   <!-- Poll Option #1 user has voted on poll -->
-  <div class="item item-text-wrap" ng-click="updateVote(poll.id, poll.poll_options[0].id, poll.poll_options[0].voted)" ng-if="poll.current_user_vote !== null">
+  <div class="item item-text-wrap" ng-click="updateVote(poll.id, poll.poll_options[0].id, poll.poll_options[0].voted)">
       <img ng-src="img/voted.ico" ng-show="poll.poll_options[0].voted === true">
       <img ng-src="img/no-vote.ico" ng-show="poll.poll_options[0].voted === false">
       {{ poll.poll_options[0].title }}
       <small>
-        {{ poll.poll_options[0].user_answers_count }} votes
+        {{ poll.poll_options[0].user_answers_count || 0 }} votes
       </small>
   </div>
-  <!-- Option #1 user not voted on poll -->
-  <div class="item item-text-wrap" ng-click="updateVote(poll.id, poll.poll_options[0].id, poll.poll_options[0].voted)" ng-if="poll.current_user_vote === null">
-      <img ng-src="imf/no-vote.ico">
-      {{ poll.poll_options[0].title }}
-      <small>
-        vote to see results
-      </small>
-  </div>
-
   <!-- Poll Option #2  user has voted on poll-->
-  <div class="item item-text-wrap" ng-click="updateVote(poll.id, poll.poll_options[1].id, poll.poll_options[1].voted)" ng-if="poll.current_user_vote !== null">
+  <div class="item item-text-wrap" ng-click="updateVote(poll.id, poll.poll_options[1].id, poll.poll_options[1].voted)">
       <img ng-src="img/voted.ico" ng-show="poll.poll_options[1].voted === true">
       <img ng-src="img/no-vote.ico" ng-show="poll.poll_options[1].voted === false">
       {{ poll.poll_options[1].title }}
       <small>
-        {{ poll.poll_options[1].user_answers_count }} votes
-      </small>
-  </div>
-  <div class="item item-text-wrap" ng-click="updateVote(poll.id, poll.poll_options[1].id, poll.poll_options[1].voted)" ng-if="poll.current_user_vote === null">
-    <img ng-src="img/no-vote.ico">
-      {{ poll.poll_options[1].title }}
-      <small>
-        vote to see results
+        {{ poll.poll_options[1].user_answers_count || 0 }} votes
       </small>
   </div>
   <!-- footer -->

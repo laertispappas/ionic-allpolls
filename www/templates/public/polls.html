@@ -1,16 +1,16 @@
-<ion-view view-title="All Polls" name="dashboard-view">
+<ion-view view-title="Explore" name="dashboard-view">
   <ion-nav-buttons side="right">
-    <button class="button icon-left ion-log-out button-stable" ng-click="logout()">Logout</button>
   </ion-nav-buttons>
 
   <ion-content class="padding">
     {{ polls[0] }}
     <div class="row">
       <div class="col text-center">
-        <div ng-include src="'templates/partials/_poll.html'" ng-repeat="poll in polls">
+        <div ng-include src="'templates/partials/_public_poll.html'" ng-repeat="poll in polls">
         </div>
       </div>
     </div>
+
     <div ng-include src="'templates/partials/_pagination.html'">
     </div>
   </ion-content>

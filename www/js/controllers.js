@@ -29,6 +29,11 @@ angular.module('starter')
       $state.go('login', {}, {reload: true});
     };
 
+    $scope.browsePolls = function(){
+      $ionicLoading.hide();
+      $state.go('public_polls', {}, {reload: true});
+    };
+
     // This method is executed when the user press the "Sign in with Google" button
     $scope.googleSignIn = function() {
       $ionicLoading.show({
@@ -56,6 +61,22 @@ angular.module('starter')
           $ionicLoading.hide();
         }
       );
+    };
+  })
+  .controller('PublicPollsCtrl', function($scope, $state, AllPollsService) {
+    AllPollsService.getPublicPolls(null).then(function(polls) {
+      $scope.polls = polls;
+    });
+
+    $scope.loginAndRedirect = function(){
+      $state.go('welcome', {}, {reload: true});
+    };
+
+    $scope.nextPage = function(pageNumber) {
+      AllPollsService.getPublicPolls(pageNumber).then(function(polls) {
+        $scope.polls = polls;
+        console.log(polls);
+      });
     };
   })
   .controller('LoginCtrl', function($scope, $state, $ionicPopup, AuthService) {
@@ -123,9 +144,15 @@ angular.module('starter')
       $scope.polls = polls;
     });
 
+    $scope.nextPage = function(pageNumber) {
+      AllPollsService.getPolls(pageNumber).then(function(polls) {
+        $scope.polls = polls;
+        console.log(polls);
+      });
+    };
     $scope.updateVote = function(pollId, pollOptionId, voted) {
       if (voted) { return; }
-      pollToVote = AllPollsService.getPollById(pollId);
+      var pollToVote = AllPollsService.getPollById(pollId);
 
       AllPollsService.updateVote(pollToVote, pollOptionId).then(function(result) {
         console.log(result);

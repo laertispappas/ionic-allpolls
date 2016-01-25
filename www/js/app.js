@@ -38,6 +38,11 @@ angular.module('starter', ['ionic'])
         templateUrl: 'templates/register.html',
         controller: 'RegisterCtrl'
       })
+      .state('public_polls', {
+        url: '/public/polls',
+        controller: 'PublicPollsCtrl',
+        templateUrl: 'templates/public/polls.html'
+      })
       .state('main', {
         url: '/',
         abstract: true,
@@ -114,7 +119,7 @@ angular.module('starter', ['ionic'])
         }
       }
       if (!AuthService.isAuthenticated()) {
-        if ((next.name === 'login') || (next.name === 'register')) {
+        if ((next.name === 'login') || (next.name === 'register') || next.name === 'public_polls') {
           $state.go(next.name, {}, {notify: false});
         }
         else if (next.name !== 'welcome') {

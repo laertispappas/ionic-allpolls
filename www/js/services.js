@@ -149,22 +149,38 @@ angular.module('starter')
     };
 
     var updatePollVote = function (poll, optionId) {
-      if (poll.poll_options[0].id === optionId) {
-        poll.poll_options[0].voted = !poll.poll_options[0].voted;
-        if (poll.poll_options[1].voted === true) {
-          poll.poll_options[1].voted = false;
-        }
-      } else {
-        poll.poll_options[1].voted = !poll.poll_options[1].voted;
+      poll.poll_options[0].voted = pollResponse.poll_options[0].voted;
+      poll.poll_options[0].user_answers_count = pollResponse.poll_options[0].user_answers_count;
+      poll.poll_options[1].voted = pollResponse.poll_options[1].voted;
+      poll.poll_options[1].user_answers_count = pollResponse.poll_options[1].user_answers_count;
+      poll.current_user_vote = pollResponse.current_user_vote;
+      poll.user_answers_count = pollResponse.user_answers_count;
 
-        if (poll.poll_options[0].voted === true) {
-          poll.poll_options[0].voted = false;
-        }
-      }
+      // update poll obj from polls page
+      otherPoll = getPollById(poll.id);
+      otherPoll.poll_options[0].voted = pollResponse.poll_options[0].voted;
+      otherPoll.poll_options[0].user_answers_count = pollResponse.poll_options[0].user_answers_count;
+      otherPoll.poll_options[1].voted = pollResponse.poll_options[1].voted;
+      otherPoll.poll_options[1].user_answers_count = pollResponse.poll_options[1].user_answers_count;
+      otherPoll.current_user_vote = pollResponse.current_user_vote;
+      otherPoll.user_answers_count = pollResponse.user_answers_count;
     };
     return {
-      getPolls: function() {
-        return $http.get(API_ENDPOINTS.polls).then(
+      getPublicPolls: function(pageNumber) {
+        if (pageNumber == null) {
+          pageNumber = 1
+        }
+        return $http.get(API_ENDPOINTS.public_polls + "?page=" + pageNumber).then(
+          function(result) {
+            polls = result.data.polls;
+            return polls;
+          });
+      },
+      getPolls: function(pageNumber) {
+        if (pageNumber == null) {
+          pageNumber = 1
+        }
+        return $http.get(API_ENDPOINTS.polls + "?page=" + pageNumber).then(
           function(result) {
             polls = result.data.polls;
             return polls;
@@ -178,13 +194,14 @@ angular.module('starter')
           });
       },
       updateVote: function(poll, pollOptionId) {
-        endpoint = API_ENDPOINTS.update_vote.replace(':poll_id', poll.id);
+        var endpoint = API_ENDPOINTS.update_vote.replace(':poll_id', poll.id);
         endpoint = endpoint.replace(':poll_option_id', pollOptionId);
         return $http.post(endpoint).then(
           function(result) {
-            // update model
-            updatePollVote(poll, pollOptionId);
-            console.log(result);
+            pollResponse = result.data.poll;
+            updatePollVote(poll, pollResponse);
+
+            return poll;
           });
       },
       polls: function() { return polls; },
