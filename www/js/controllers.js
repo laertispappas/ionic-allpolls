@@ -2,6 +2,11 @@ angular.module('starter')
   .controller('AppCtrl', function($scope, $state, $ionicPopup, AuthService, AUTH_EVENTS) {
     $scope.email = AuthService.email();
 
+    $scope.logout = function() {
+      AuthService.logout();
+      $state.go('welcome');
+    };
+
     $scope.$on(AUTH_EVENTS.notAuthorized, function(event) {
       var alertPopup = $ionicPopup.alert({
         title: 'Unauthorized!',
@@ -27,11 +32,6 @@ angular.module('starter')
     $scope.allpollsSignIn = function(){
       $ionicLoading.hide();
       $state.go('login', {}, {reload: true});
-    };
-
-    $scope.browsePolls = function(){
-      $ionicLoading.hide();
-      $state.go('public_polls', {}, {reload: true});
     };
 
     // This method is executed when the user press the "Sign in with Google" button
@@ -63,9 +63,22 @@ angular.module('starter')
       );
     };
   })
-  .controller('PublicPollsCtrl', function($scope, $state, AllPollsService) {
+  .controller('PublicPollsCtrl', function($scope, $state, $ionicLoading, AllPollsService) {
+    // show hide loading functions
+    //$scope.show = function() {
+    //  $ionicLoading.show({
+    //    template: 'Loading...'
+    //  });
+    //};
+    //$scope.hide = function(){
+    //  $ionicLoading.hide();
+    //};
     AllPollsService.getPublicPolls(null).then(function(polls) {
+      $ionicLoading.show({
+        template: 'Loading...'
+      });
       $scope.polls = polls;
+      $ionicLoading.hide();
     });
 
     $scope.loginAndRedirect = function(){
@@ -110,11 +123,6 @@ angular.module('starter')
     };
   })
   .controller('DashCtrl', function($scope, $state, $http, $ionicPopup, AuthService, API_ENDPOINTS) {
-    $scope.logout = function() {
-      AuthService.logout();
-      $state.go('welcome');
-    };
-
     $scope.performValidRequest = function() {
       $http.get(API_ENDPOINTS.polls).then(
         function(result) {
