@@ -165,6 +165,14 @@ angular.module('starter')
       otherPoll.current_user_vote = pollResponse.current_user_vote;
       otherPoll.user_answers_count = pollResponse.user_answers_count;
     };
+
+    var getPollsFromResponse = function (response) {
+      polls = response.data.polls;
+      polls.meta = response.data.meta;
+
+      return polls;
+    };
+
     return {
       getPublicPolls: function(pageNumber) {
         if (pageNumber == null) {
@@ -172,7 +180,8 @@ angular.module('starter')
         }
         return $http.get(API_ENDPOINTS.public_polls + "?page=" + pageNumber).then(
           function(result) {
-            polls = result.data.polls;
+            polls = getPollsFromResponse(result);
+            console.log(polls.meta);
             return polls;
           });
       },
@@ -182,7 +191,7 @@ angular.module('starter')
         }
         return $http.get(API_ENDPOINTS.polls + "?page=" + pageNumber).then(
           function(result) {
-            polls = result.data.polls;
+            polls = getPollsFromResponse(result);
             return polls;
           });
       },
@@ -200,7 +209,6 @@ angular.module('starter')
           function(result) {
             pollResponse = result.data.poll;
             updatePollVote(poll, pollResponse);
-
             return poll;
           });
       },
