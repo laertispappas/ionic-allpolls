@@ -1,12 +1,5 @@
 angular.module('starter')
   .controller('AppCtrl', function($scope, $state, $ionicPopup, AuthService, AUTH_EVENTS) {
-    $scope.email = AuthService.email();
-
-    $scope.logout = function() {
-      AuthService.logout();
-      $state.go('welcome');
-    };
-
     $scope.$on(AUTH_EVENTS.notAuthorized, function(event) {
       var alertPopup = $ionicPopup.alert({
         title: 'Unauthorized!',
@@ -23,15 +16,26 @@ angular.module('starter')
       });
     });
 
+    $scope.email = AuthService.email();
+
+    $scope.logout = function() {
+      AuthService.logout();
+      $state.go('app.welcome');
+    };
+
     $scope.setCurrentEmail = function(name) {
       $scope.email = name;
     };
+
+    $scope.newPoll = function() {
+      console.log("New Poll")
+    }
   })
   .controller('WelcomeCtrl', function($scope, $state, UserService, $ionicLoading, $ionicModal) {
     // allpolls sign in
     $scope.allpollsSignIn = function(){
       $ionicLoading.hide();
-      $state.go('login', {}, {reload: true});
+      $state.go('app.login', {}, {reload: true});
     };
 
     // This method is executed when the user press the "Sign in with Google" button
@@ -73,6 +77,7 @@ angular.module('starter')
     //$scope.hide = function(){
     //  $ionicLoading.hide();
     //};
+
     AllPollsService.getPublicPolls(null).then(function(polls) {
       $ionicLoading.show({
         template: 'Loading...'
@@ -82,7 +87,7 @@ angular.module('starter')
     });
 
     $scope.loginAndRedirect = function(){
-      $state.go('welcome', {}, {reload: true});
+      $state.go('app.welcome', {}, {reload: true});
     };
 
     $scope.nextPage = function(pageNumber) {
@@ -97,7 +102,7 @@ angular.module('starter')
 
     $scope.login = function(data) {
       AuthService.login(data.email, data.password).then(function(authenticated) {
-        $state.go('main.dash', {}, {reload: true});
+        $state.go('private.polls', {}, {reload: true});
         $scope.setCurrentEmail(data.email);
       }, function(err) {
         var alertPopup = $ionicPopup.alert({
@@ -112,9 +117,10 @@ angular.module('starter')
 
     $scope.register = function(data) {
       AuthService.register(data.email, data.username, data.password, data.password_confirmation).then(function(authenticated) {
-        $state.go('main.dash', {}, {reload: true});
         $scope.setCurrentEmail(data.email);
+        $state.go('private.polls', {}, {reload: true});
       }, function(err) {
+        $scope.response = err;
         var alertPopup = $ionicPopup.alert({
           title: 'Register failed!',
           template: 'Please try again!'

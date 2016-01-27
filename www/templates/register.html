@@ -1,5 +1,11 @@
 <ion-view view-title="Register" name="register-view">
+  <ion-nav-buttons side="left">
+    <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
+  </ion-nav-buttons>
+
   <ion-content class="padding">
+    {{ response }}
+
     <div class="list list-inset">
       <label class="item item-input">
         <input type="text" placeholder="Email" ng-model="data.email">
@@ -14,7 +20,7 @@
       </label>
 
       <label class="item item-input">
-        <input type="password" placeholder="Password" ng-model="data.password_confirmation">
+        <input type="password" placeholder="Password Confirmation" ng-model="data.password_confirmation">
       </label>
     </div>
 

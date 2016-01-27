@@ -23,25 +23,71 @@ angular.module('starter', ['ionic'])
   })
   .config(function ($stateProvider, $urlRouterProvider, USER_ROLES) {
     $stateProvider
-      .state('welcome', {
+      .state('app', {
+        url: '/app/public',
+        abstract: true,
+        templateUrl: 'templates/public/menu.html',
+        controller: 'AppCtrl'
+      })
+      .state('app.welcome', {
         url: '/welcome',
-        templateUrl: 'templates/welcome.html',
-        controller: 'WelcomeCtrl'
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/welcome.html',
+            controller: 'WelcomeCtrl'
+          }
+        }
       })
-      .state('login', {
+      .state('app.login', {
         url: '/login',
-        templateUrl: 'templates/login.html',
-        controller: 'LoginCtrl'
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/login.html',
+            controller: 'LoginCtrl'
+          }
+        }
       })
-      .state('register', {
+      .state('app.register', {
         url: '/register',
-        templateUrl: 'templates/register.html',
-        controller: 'RegisterCtrl'
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/register.html',
+            controller: 'RegisterCtrl'
+          }
+        }
       })
-      .state('public_polls', {
-        url: '/public/polls',
-        controller: 'PublicPollsCtrl',
-        templateUrl: 'templates/public/polls.html'
+      .state('app.polls', {
+        url: '/polls',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/public/polls.html',
+            controller: 'PublicPollsCtrl'
+          }
+        }
+      })
+      .state('private', {
+        url: '/app/private',
+        abstract: true,
+        templateUrl: 'templates/private/menu.html',
+        controller: 'AppCtrl'
+      })
+      .state('private.polls', {
+        url: '/polls',
+        views: {
+          'menuPrivateContent': {
+            templateUrl: 'templates/polls.html',
+            controller: 'PollsCtrl'
+          }
+        }
+      })
+      .state('private.poll_page', {
+        url: '/polls/:poll_id',
+        views: {
+          'menuPrivateContent': {
+            templateUrl: 'templates/poll_page.html',
+            controller: 'PollPageCtrl'
+          }
+        }
       })
       .state('main', {
         url: '/',
@@ -63,15 +109,6 @@ angular.module('starter', ['ionic'])
           'polls-tab': {
             templateUrl: 'templates/polls.html',
             controller: 'PollsCtrl'
-          }
-        }
-      })
-      .state('main.poll_page', {
-        url: 'main/polls/:poll_id',
-        views: {
-          'polls-tab': {
-            templateUrl: 'templates/poll_page.html',
-            controller: 'PollPageCtrl'
           }
         }
       })
@@ -119,12 +156,12 @@ angular.module('starter', ['ionic'])
         }
       }
       if (!AuthService.isAuthenticated()) {
-        if ((next.name === 'login') || (next.name === 'register') || next.name === 'public_polls') {
+        if ((next.name === 'app.login') || (next.name === 'app.register') || (next.name === 'app.polls') || (next.name === 'app.welcome')) {
           $state.go(next.name, {}, {notify: false});
         }
-        else if (next.name !== 'welcome') {
+        else if (next.name !== 'app.welcome') {
           event.preventDefault();
-          $state.go('welcome');
+          $state.go('app.welcome');
         }
       }
     });

@@ -1,4 +1,4 @@
-<ion-view view-title="Wellcome" name="wellcome-view">
+<ion-view view-title="Wellcome" name="wellcome-view" class="welcome-view">
   <!--<ion-header-bar align-title="left" class="bar-positive">-->
     <!--<div class="buttons">-->
       <!--<button class="button" ng-click="doSomething()">Left Button</button>-->
@@ -8,11 +8,31 @@
       <!--<button class="button">Right Button</button>-->
     <!--</div>-->
   <!--</ion-header-bar>-->
+  <ion-nav-buttons side="left">
+    <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
+  </ion-nav-buttons>
 
   <ion-content class="padding">
-    <h3>Wellcome to allpolls. Please login and start polling.</h3>
-    <button class="button button-block icon-left ion-ionic button-calm" ng-click="allpollsSignIn()">Allpolls</button>
-    <button class="button button-block icon-left ion-social-facebook facebook-blue" ng-click="facebookSignIn()">Facebook</button>
-    <button class="button button-block icon-left ion-social-googleplus googleplus-red" ng-click="googleSignIn()">Google+</button>
+    <div class="login-button-wrapper">
+      <div class="row">
+        <button class="button button-block icon-left ion-ionic button-calm" ng-click="allpollsSignIn()">Allpolls</button>
+      </div>
+      <div class="row">
+        <button class="button button-block icon-left ion-social-facebook facebook-blue" ng-click="facebookSignIn()">Facebook</button>
+      </div>
+      <div class="row">
+        <button class="button button-block icon-left ion-social-googleplus googleplus-red" ng-click="googleSignIn()">Google+</button>
+      </div>
+    </div>
   </ion-content>
+
+  <ion-footer-bar align-title="left" class="bar-assertive">
+    <div class="buttons">
+      <button class="button">Left Button</button>
+    </div>
+    <h1 class="title">Title!</h1>
+    <div class="buttons" ng-click="doSomething()">
+      <button class="button">Right Button</button>
+    </div>
+  </ion-footer-bar>
 </ion-view>

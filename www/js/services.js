@@ -103,7 +103,7 @@ angular.module('starter')
           storeUserCredentials(email + '.' + access_token);
           resolve('Registration success.');
         }, function(error) {
-          reject('Registration Failed.');
+          reject(error.data);
         });
       });
     };

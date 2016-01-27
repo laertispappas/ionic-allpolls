@@ -10,3 +10,23 @@
   border-color: #dd4b39 !important;
   color: white !important;
 }
+.welcome-view {
+  background: url('../img/map1.jpg') no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  background-size: cover;
+}
+.pane {
+  background: url('../img/map1.jpg') no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  background-size: cover;
+}
+
+.login-button-wrapper {
+  margin-top: 20%;
+}
+
+.pagination {
+  padding-bottom: 20%;
+}
