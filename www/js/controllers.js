@@ -1,5 +1,5 @@
 angular.module('starter')
-  .controller('AppCtrl', function($scope, $state, $ionicPopup, AuthService, AUTH_EVENTS) {
+  .controller('AppCtrl', function($scope, $state, $ionicPopup, $ionicModal, AuthService, AllPollsService, AUTH_EVENTS) {
     $scope.$on(AUTH_EVENTS.notAuthorized, function(event) {
       var alertPopup = $ionicPopup.alert({
         title: 'Unauthorized!',
@@ -27,9 +27,38 @@ angular.module('starter')
       $scope.email = name;
     };
 
-    $scope.newPoll = function() {
-      console.log("New Poll")
-    }
+    $scope.newPoll = {
+      poll_options: [
+      ]
+    };
+
+    $scope.createPoll = function (newPollData) {
+      AllPollsService.createPoll(newPollData).then(function(response){
+        console.log(response);
+        $scope.closeNewPollModal();
+      }, function(err){
+        console.log(err);
+      });
+    };
+
+    $ionicModal.fromTemplateUrl('templates/polls/new.html', {
+      scope: $scope,
+      animation: 'slide-in-up'
+    }).then(function(modal) {
+      $scope.modal = modal
+    });
+
+    $scope.openNewPollModal = function() {
+      $scope.modal.show()
+    };
+
+    $scope.closeNewPollModal = function() {
+      $scope.modal.hide();
+    };
+
+    $scope.$on('$destroy', function() {
+      $scope.modal.remove();
+    });
   })
   .controller('WelcomeCtrl', function($scope, $state, UserService, $ionicLoading, $ionicModal) {
     // allpolls sign in

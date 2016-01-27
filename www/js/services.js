@@ -15,6 +15,7 @@ angular.module('starter')
       setUser: setUser
     };
   })
+
   .service('AuthService', function($q, $http, USER_ROLES, API_ENDPOINTS) {
     var LOCAL_TOKEN_KEY = 'yourTokenKey';
     var email = '';
@@ -131,7 +132,7 @@ angular.module('starter')
       role: function() {return role;}
     };
   })
-  .factory('AllPollsService', function($http, API_ENDPOINTS) {
+  .factory('AllPollsService', function($http, $q, API_ENDPOINTS) {
     var polls = [];
     var poll = null;
 
@@ -174,6 +175,33 @@ angular.module('starter')
     };
 
     return {
+      createPoll: function(newPollData) {
+        return $q(function(resolve, reject) {
+          return $http({
+            url: API_ENDPOINTS.polls,
+            method: "POST",
+            data: { 'poll': {
+              'title': newPollData.title,
+              'poll_options': [
+                {'title': newPollData.poll_options[0].title},
+                {'title': newPollData.poll_options[1].title},
+              ]
+            }
+            }
+          }).then(function(response) {
+              resolve(response);
+            },
+            function(response) { // optional
+              reject(response);
+            });
+        });
+        //return $http.post(API_ENDPOINTS.polls, newPollData).then(
+        //  function (result) {
+        //    return result;
+        //  }, function(error) {
+        //    return error;
+        //  });
+      },
       getPublicPolls: function(pageNumber) {
         if (pageNumber == null) {
           pageNumber = 1
