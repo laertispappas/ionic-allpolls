@@ -168,6 +168,7 @@ angular.module('starter')
     };
 
     var getPollsFromResponse = function (response) {
+      console.log(response);
       polls = response.data.polls;
       polls.meta = response.data.meta;
 
@@ -228,6 +229,24 @@ angular.module('starter')
           function(result) {
             poll = result.data.poll;
             return poll;
+          });
+      },
+      getCategories: function(user) {
+        return $http.get(API_ENDPOINTS.categories).then(
+          function(result) {
+            return result.data;
+          });
+      },
+      getPollsForCategory: function(category) {
+        console.log(category);
+        return $http.get(API_ENDPOINTS.polls_for_category.replace(':category_id', category.id)).then(
+          function(result) {
+            if (result.data.polls == undefined || result.data.polls == null) {
+              return result.data;
+            } else {
+              polls = getPollsFromResponse(result);
+              return polls;
+            }
           });
       },
       updateVote: function(poll, pollOptionId) {

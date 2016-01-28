@@ -59,6 +59,7 @@ angular.module('starter')
     $scope.$on('$destroy', function() {
       $scope.modal.remove();
     });
+
   })
   .controller('WelcomeCtrl', function($scope, $state, UserService, $ionicLoading, $ionicModal) {
     // allpolls sign in
@@ -182,7 +183,38 @@ angular.module('starter')
           $scope.response = err;
         }); // end then
     };
-  }).controller('PollsCtrl', function($scope, $state, AllPollsService) {
+  }).controller('PollsCtrl', function($scope, $state, $ionicModal, AllPollsService) {
+    $ionicModal.fromTemplateUrl('templates/categories/index_modal.html', {
+        'scope': $scope
+      }
+    ).then(function(modal) {
+        $scope.modal = modal;
+      });
+
+    $scope.showPollsFromCategory = function(category){
+      AllPollsService.getPollsForCategory(category).then(function(polls) {
+        console.log(polls);
+        $scope.polls = polls;
+      });
+    };
+
+    $scope.openCategoriesModal = function() {
+      AllPollsService.getCategories(null).then(function(result) {
+        $scope.categories = result;
+        $scope.modal.show();
+      }, function (error) {
+
+      });
+    };
+
+    $scope.closeCategoriesModal = function() {
+      $scope.modal.hide();
+    };
+
+    $scope.$on('$destroy', function() {
+      $scope.modal.remove();
+    });
+
     AllPollsService.getPolls().then(function(polls) {
       $scope.polls = polls;
     });

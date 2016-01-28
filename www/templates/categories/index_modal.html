@@ -1,0 +1,13 @@
+<ion-view class="fancy-select-items modal">
+  <ion-header-bar class="bar-positive">
+    <h1 class="title">Filter by Category</h1>
+    <button ng-click="closeCategoriesModal()" class="button button-positive button-icon ion-checkmark"></button>
+  </ion-header-bar>
+  <ion-content>
+    <ion-list>
+      <ion-item ng-repeat="category in categories.categories" ng-click="showPollsFromCategory(category)">
+        {{ category.name }}
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>
