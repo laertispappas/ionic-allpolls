@@ -270,20 +270,24 @@ angular.module('starter')
     console.log("Galleries");
   })
   .controller('FeedsCtrl', function($scope, AllPollsService){
-    AllPollsService.feed({}).then(function(polls) {
-      $scope.polls = polls;
-      console.log(polls);
+    $scope.query = { page: 1 }
+
+    AllPollsService.feed($scope.query).then(function(polls) {
+      $scope.pollsFeed = polls;
     });
 
     $scope.nextPage = function(pageNumber) {
-      AllPollsService.getPublicPolls(pageNumber).then(function(pollsData) {
-        $scope.polls.push(poll);
+      $scope.query.page = pageNumber;
+
+      AllPollsService.feed($scope.query).then(function(pollsData) {
+        $scope.pollsFeed = pollsData;
       });
     };
 
     $scope.updateVote = function(pollId, pollOptionId, voted) {
       if (voted) { return; }
-      var pollToVote = AllPollsService.getPollById(pollId);
+      var pollToVote = AllPollsService.getPollFeedById(pollId);
+      console.log(pollToVote);
 
       AllPollsService.updateVote(pollToVote, pollOptionId).then(function(result) {
         console.log(result);

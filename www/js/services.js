@@ -135,6 +135,20 @@ angular.module('starter')
   .factory('AllPollsService', function($http, $q, API_ENDPOINTS) {
     var polls = [];
     var poll = null;
+    var pollsFeed = [];
+
+    var getPollFeedByIndex = function(index) {
+      return pollsFeed[index]
+    };
+
+    var getPollFeedById = function (id) {
+      for(i = 0; i < pollsFeed.length; i++) {
+        if (pollsFeed[i].id == id) {
+          return pollsFeed[i];
+        }
+      }
+      return null;
+    };
 
     var getPollByIndex = function(index) {
       return polls[index]
@@ -149,30 +163,44 @@ angular.module('starter')
       return null;
     };
 
-    var updatePollVote = function (poll, optionId) {
+   var updatePollVote = function (poll, pollResponse) {
+      console.log(pollResponse);
       poll.poll_options[0].voted = pollResponse.poll_options[0].voted;
       poll.poll_options[0].user_answers_count = pollResponse.poll_options[0].user_answers_count;
       poll.poll_options[1].voted = pollResponse.poll_options[1].voted;
       poll.poll_options[1].user_answers_count = pollResponse.poll_options[1].user_answers_count;
       poll.current_user_vote = pollResponse.current_user_vote;
       poll.user_answers_count = pollResponse.user_answers_count;
-
+      
+      // update poll object from feed page if exists. Refactor broadcast somehow
+      feedPoll = getPollFeedById(poll.id);
+      if ((feedPoll != null) || (feedPoll != undefined) ) {
+        feedPoll.poll_options[0].voted = pollResponse.poll_options[0].voted;
+        feedPoll.poll_options[0].user_answers_count = pollResponse.poll_options[0].user_answers_count;
+        feedPoll.poll_options[1].voted = pollResponse.poll_options[1].voted;
+        feedPoll.poll_options[1].user_answers_count = pollResponse.poll_options[1].user_answers_count;
+        feedPoll.current_user_vote = pollResponse.current_user_vote;
+        feedPoll.user_answers_count = pollResponse.user_answers_count;
+      }
+ 
       // update poll obj from polls page
       otherPoll = getPollById(poll.id);
-      otherPoll.poll_options[0].voted = pollResponse.poll_options[0].voted;
-      otherPoll.poll_options[0].user_answers_count = pollResponse.poll_options[0].user_answers_count;
-      otherPoll.poll_options[1].voted = pollResponse.poll_options[1].voted;
-      otherPoll.poll_options[1].user_answers_count = pollResponse.poll_options[1].user_answers_count;
-      otherPoll.current_user_vote = pollResponse.current_user_vote;
-      otherPoll.user_answers_count = pollResponse.user_answers_count;
-    };
+      if ((otherPoll != null) || (otherPoll != undefined) ) {
+        otherPoll.poll_options[0].voted = pollResponse.poll_options[0].voted;
+        otherPoll.poll_options[0].user_answers_count = pollResponse.poll_options[0].user_answers_count;
+        otherPoll.poll_options[1].voted = pollResponse.poll_options[1].voted;
+        otherPoll.poll_options[1].user_answers_count = pollResponse.poll_options[1].user_answers_count;
+        otherPoll.current_user_vote = pollResponse.current_user_vote;
+        otherPoll.user_answers_count = pollResponse.user_answers_count;
+      }
+   };
 
     var getPollsFromResponse = function (pollsResponse, metaResponse) {
-      polls = {};
-      polls = pollsResponse;
-      polls.meta = metaResponse;
+      tmp_polls = {};
+      tmp_polls = pollsResponse;
+      tmp_polls.meta = metaResponse;
 
-      return polls;
+      return tmp_polls;
     };
 
     return {
@@ -219,8 +247,8 @@ angular.module('starter')
           params: params
         }).then(
           function(result) {
-            polls = getPollsFromResponse(result.data.feeds, result.data.meta);
-            return polls;
+            pollsFeed = getPollsFromResponse(result.data.feeds, result.data.meta);
+            return pollsFeed;
           });
       },
       getPolls: function(params) {
@@ -258,6 +286,8 @@ angular.module('starter')
       polls: function() { return polls; },
       poll:  function() { return poll; },
       getPollByIndex: getPollByIndex,
+      getPollFeedById: getPollFeedById,
+      getPollFeedByIndex: getPollFeedByIndex,
       getPollById: getPollById
     };
   })
