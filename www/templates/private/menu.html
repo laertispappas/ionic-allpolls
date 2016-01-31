@@ -31,15 +31,7 @@
           <ion-nav-view name="private-tab-explore"></ion-nav-view>
         </ion-tab>
 
-        <ion-tab title="Profile" icon="ion-home" ui-sref="private.profile">
-          <ion-nav-view name="private-tab-profile"></ion-nav-view>
-        </ion-tab>
-
-        <ion-tab title="Activity" icon="ion-earth" ui-sref="private.activity">
-          <ion-nav-view name="private-tab-activity"></ion-nav-view>
-        </ion-tab>
-
-        <ion-tab title="Friends" icon="ion-nuclear" ui-sref="private.friends">
+        <ion-tab title="Follow" icon="ion-nuclear" ui-sref="private.friends">
           <ion-nav-view name="private-tab-friends"></ion-nav-view>
         </ion-tab>
       </ion-tabs>
@@ -56,11 +48,11 @@
         <ion-item menu-close ui-sref="private.profile">
           My Profile
         </ion-item>
-        <ion-item menu-close href="#/app/private/voted">
-          My Votes
+        <ion-item menu-close ui-sref="private.activity">
+          My Activity
         </ion-item>
-        <ion-item menu-close href="#/app/private/votes">
-          My voted polls
+        <ion-item menu-close ui-sref="private.friends">
+          My Friends
         </ion-item>
         <ion-item menu-close href="#/app/private/account">
           Account
