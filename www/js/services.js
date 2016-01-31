@@ -214,11 +214,10 @@ angular.module('starter')
             return polls;
           });
       },
-      getPolls: function(pageNumber) {
-        if (pageNumber == null) {
-          pageNumber = 1
-        }
-        return $http.get(API_ENDPOINTS.polls + "?page=" + pageNumber).then(
+      getPolls: function(params) {
+        return $http.get(API_ENDPOINTS.polls, {
+          params: params
+        }).then(
           function(result) {
             polls = getPollsFromResponse(result);
             return polls;
@@ -231,22 +230,10 @@ angular.module('starter')
             return poll;
           });
       },
-      getCategories: function(user) {
+      getCategories: function() {
         return $http.get(API_ENDPOINTS.categories).then(
           function(result) {
             return result.data;
-          });
-      },
-      getPollsForCategory: function(category) {
-        console.log(category);
-        return $http.get(API_ENDPOINTS.polls_for_category.replace(':category_id', category.id)).then(
-          function(result) {
-            if (result.data.polls == undefined || result.data.polls == null) {
-              return result.data;
-            } else {
-              polls = getPollsFromResponse(result);
-              return polls;
-            }
           });
       },
       updateVote: function(poll, pollOptionId) {

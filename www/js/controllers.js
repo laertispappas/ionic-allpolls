@@ -184,6 +184,8 @@ angular.module('starter')
         }); // end then
     };
   }).controller('PollsCtrl', function($scope, $state, $ionicModal, AllPollsService) {
+    $scope.query = {};
+
     $ionicModal.fromTemplateUrl('templates/categories/index_modal.html', {
         'scope': $scope
       }
@@ -191,20 +193,8 @@ angular.module('starter')
         $scope.modal = modal;
       });
 
-    $scope.showPollsFromCategory = function(category){
-      AllPollsService.getPollsForCategory(category).then(function(polls) {
-        console.log(polls);
-        $scope.polls = polls;
-      });
-    };
-
     $scope.openCategoriesModal = function() {
-      AllPollsService.getCategories(null).then(function(result) {
-        $scope.categories = result;
-        $scope.modal.show();
-      }, function (error) {
-
-      });
+      $scope.modal.show();
     };
 
     $scope.closeCategoriesModal = function() {
@@ -219,10 +209,26 @@ angular.module('starter')
       $scope.polls = polls;
     });
 
-    $scope.nextPage = function(pageNumber) {
-      AllPollsService.getPolls(pageNumber).then(function(polls) {
+    AllPollsService.getCategories().then(function(result) {
+      $scope.categories = result;
+    }, function (error) {
+
+    });
+
+    $scope.showPollsFromCategory = function (category) {
+      $scope.query.category_name = category.name;
+      AllPollsService.getPolls({ category_name: category.name }).then(function(polls) {
         $scope.polls = polls;
-        console.log(polls);
+        $scope.currentCategory = category;
+        $scope.closeCategoriesModal();
+      });
+    };
+
+    $scope.nextPage = function(pageNumber) {
+      $scope.query.page = pageNumber;
+
+      AllPollsService.getPolls($scope.query).then(function(polls) {
+        $scope.polls = polls;
       });
     };
     $scope.updateVote = function(pollId, pollOptionId, voted) {

@@ -5,7 +5,7 @@
   </ion-header-bar>
   <ion-content>
     <ion-list>
-      <ion-item ng-repeat="category in categories.categories" ng-click="showPollsFromCategory(category)">
+      <ion-item ng-repeat="category in categories.categories" ng-click="showPollsFromCategory(category)" ng-selected="">
         {{ category.name }}
       </ion-item>
     </ion-list>

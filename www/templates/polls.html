@@ -6,7 +6,9 @@
   <ion-content class="padding">
     <ion-list>
       <ion-item class="item-text-wrap" ng-click="openCategoriesModal($event)">
-        Filter by Category
+        <span ng-model="currentCategory">
+          {{ currentCategory.name.charAt(0).toUpperCase() + currentCategory.name.slice(1) }}
+        </span>
       </ion-item>
     </ion-list>
 
