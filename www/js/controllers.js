@@ -269,6 +269,26 @@ angular.module('starter')
   .controller('GalleriesCtrl', function($scope) {
     console.log("Galleries");
   })
-  .controller('FeedsCtrl', function($scope){
-    console.log('Feeds');
+  .controller('FeedsCtrl', function($scope, AllPollsService){
+    AllPollsService.feed({}).then(function(polls) {
+      $scope.polls = polls;
+      console.log(polls);
+    });
+
+    $scope.nextPage = function(pageNumber) {
+      AllPollsService.getPublicPolls(pageNumber).then(function(pollsData) {
+        $scope.polls.push(poll);
+      });
+    };
+
+    $scope.updateVote = function(pollId, pollOptionId, voted) {
+      if (voted) { return; }
+      var pollToVote = AllPollsService.getPollById(pollId);
+
+      AllPollsService.updateVote(pollToVote, pollOptionId).then(function(result) {
+        console.log(result);
+      }, function (error) {
+        console.log(error.data);
+      });
+    }
   });
