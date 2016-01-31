@@ -1,38 +1,30 @@
 <ion-view view-title="Wellcome" name="wellcome-view" class="welcome-view">
-  <!--<ion-header-bar align-title="left" class="bar-positive">-->
-    <!--<div class="buttons">-->
-      <!--<button class="button" ng-click="doSomething()">Left Button</button>-->
-    <!--</div>-->
-    <!--<h1 class="title">Title!</h1>-->
-    <!--<div class="buttons">-->
-      <!--<button class="button">Right Button</button>-->
-    <!--</div>-->
-  <!--</ion-header-bar>-->
-  <ion-nav-buttons side="left">
-    <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
-  </ion-nav-buttons>
+  <ion-content class="padding" style="background: url(img/home.jpg) center; background-size: cover;">
+    <div class="hero no-header flat">
+      <div class="content">
+        <div class="app-icon">
+        </div>
+        <h1 class="allpolls-home-h1">Allpolls Sign In</h1>
+      </div>
+    </div>
 
-  <ion-content class="padding">
-    <div class="login-button-wrapper">
-      <div class="row">
-        <button class="button button-block icon-left ion-ionic button-calm" ng-click="allpollsSignIn()">Allpolls</button>
-      </div>
-      <div class="row">
-        <button class="button button-block icon-left ion-social-facebook facebook-blue" ng-click="facebookSignIn()">Facebook</button>
-      </div>
-      <div class="row">
-        <button class="button button-block icon-left ion-social-googleplus googleplus-red" ng-click="googleSignIn()">Google+</button>
-      </div>
+    <div class="padding" style="margin-top: 30em">
+      <button class="button button-block icon-left ion-ionic button-calm" ng-click="allpollsSignIn()">Allpolls</button>
+    </div>
+    <div class="button-bar social-login">
+      <button class="button button-small button-border icon-left ion-social-googleplus googleplus-red">Google+</button>
+      &nbsp;&nbsp;
+      <button class="button button-small button-border icon-left ion-social-facebook facebook-blue">Facebook</button>
     </div>
   </ion-content>
 
-  <ion-footer-bar align-title="left" class="bar-assertive">
-    <div class="buttons">
-      <button class="button">Left Button</button>
-    </div>
-    <h1 class="title">Title!</h1>
-    <div class="buttons" ng-click="doSomething()">
-      <button class="button">Right Button</button>
-    </div>
-  </ion-footer-bar>
+  <!--<ion-footer-bar align-title="left" class="bar-assertive">-->
+    <!--<div class="buttons">-->
+      <!--<button class="button">Left Button</button>-->
+    <!--</div>-->
+    <!--<h1 class="title">Title!</h1>-->
+    <!--<div class="buttons" ng-click="doSomething()">-->
+      <!--<button class="button">Right Button</button>-->
+    <!--</div>-->
+  <!--</ion-footer-bar>-->
 </ion-view>

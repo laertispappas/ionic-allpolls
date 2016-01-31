@@ -5,6 +5,8 @@
       <ion-nav-buttons side="right">
         <div class="buttons" ng-click="openNewPollModal()">
           <button class="button button-positive">New Poll</button>
+          <button class="button button-icon button-clear ion-android-more-vertical" menu-toggle="right">
+          </button>
         </div>
       </ion-nav-buttons>
     </ion-nav-bar>
@@ -14,12 +16,13 @@
   </ion-side-menu-content>
 
   <ion-side-menu side="left">
-    <header class="bar bar-header bar-stable">
-      <h1 class="title">Left</h1>
-    </header>
+    <ion-header-bar class="dark-bg expanded">
+      <h2>Username</h2>
+    </ion-header-bar>
+
     <ion-content class="has-header">
       <ion-list>
-        <ion-item menu-close href="#/app/private/profile">
+        <ion-item menu-close ui-sref="private.profile">
           My Profile
         </ion-item>
         <ion-item menu-close href="#/app/private/voted">
@@ -37,6 +40,30 @@
       </ion-list>
     </ion-content>
   </ion-side-menu>
+
+  <ion-side-menu side="right">
+    <ion-content class="stable-bg has-expanded-header">
+      <ion-list>
+        <ion-item nav-clear menu-close ui-sref="app.activity">
+          Activity
+        </ion-item>
+        <ion-item nav-clear menu-close ui-sref="app.login">
+          Login
+        </ion-item>
+        <ion-item nav-clear menu-close ui-sref="app.profile">
+          Profile
+        </ion-item>
+        <ion-item nav-clear menu-close ui-sref="app.friends">
+          Friends
+        </ion-item>
+        <ion-item nav-clear menu-close ui-sref="app.gallery">
+          Gallery
+        </ion-item>
+      </ion-list>
+    </ion-content>
+  </ion-side-menu>
+
+
 </ion-side-menus>
 
 <!--<ion-side-menus>-->

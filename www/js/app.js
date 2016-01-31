@@ -70,6 +70,39 @@ angular.module('starter', ['ionic'])
         templateUrl: 'templates/private/menu.html',
         controller: 'AppCtrl'
       })
+      .state('private.profile', {
+        url: '/profile',
+        views: {
+          'menuPrivateContent': {
+            'templateUrl': 'templates/private/profile.html',
+            'controller': 'ProfilesCtrl'
+          }
+        }
+      }).state('private.activity', {
+        url: '/activity',
+        views: {
+          'menuPrivateContent': {
+            'templateUrl': 'templates/private/activity.html',
+            controller: 'ActivitiesCtrl'
+          }
+        }
+      }).state('private.friends', {
+        url: '/friends',
+        views: {
+          'menuPrivateContent': {
+            'templateUrl': 'templates/private/friends.html',
+            controller: 'FriendsCtrl'
+          }
+        }
+      }).state('private.gallery', {
+        url: '/gallery',
+        views: {
+          'menuPrivateContent': {
+            'templateUrl': 'templates/private/gallery.html',
+            controller: 'GalleriesCtrl'
+          }
+        }
+      })
       .state('private.polls', {
         url: '/polls',
         views: {

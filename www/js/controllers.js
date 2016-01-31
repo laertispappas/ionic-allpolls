@@ -241,7 +241,6 @@ angular.module('starter')
         console.log(error.data);
       });
     }
-
   }).controller('PollPageCtrl', function($scope, $state, AllPollsService, $stateParams) {
     AllPollsService.getPoll($stateParams.poll_id).then(function(poll) {
       $scope.poll = poll;
@@ -257,4 +256,12 @@ angular.module('starter')
       });
       return;
     }
+  }).controller('ProfilesCtrl', function($scope) {
+    console.log("Profile")
+  }).controller('ActivitiesCtrl', function($scope) {
+    console.log("Activity")
+  }).controller('FriendsCtrl', function($scope) {
+    console.log("Friends")
+  }).controller('GalleriesCtrl', function($scope) {
+    console.log("Galleries")
   });
