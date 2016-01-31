@@ -247,7 +247,8 @@ angular.module('starter')
           params: params
         }).then(
           function(result) {
-            pollsFeed = getPollsFromResponse(result.data.feeds, result.data.meta);
+            newPollsFeed = getPollsFromResponse(result.data.feeds, result.data.meta);
+            pollsFeed = pollsFeed.concat(newPollsFeed);
             return pollsFeed;
           });
       },

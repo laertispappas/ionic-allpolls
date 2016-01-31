@@ -270,19 +270,37 @@ angular.module('starter')
     console.log("Galleries");
   })
   .controller('FeedsCtrl', function($scope, AllPollsService){
-    $scope.query = { page: 1 }
+    $scope.pollsFeed = [];
+    $scope.query = { page: null }
 
     AllPollsService.feed($scope.query).then(function(polls) {
       $scope.pollsFeed = polls;
-    });
+     });
 
-    $scope.nextPage = function(pageNumber) {
-      $scope.query.page = pageNumber;
+    $scope.moreDataCanBeLoaded = function() {
+      if ($scope.pollsFeed.length > 0) {
+        return true;
+      } else {
+        return false;
+      }
+    };
 
-      AllPollsService.feed($scope.query).then(function(pollsData) {
-        $scope.pollsFeed = pollsData;
+    $scope.loadMore = function() {
+      if ($scope.query.page == null) {
+        $scope.query.page = 1;
+        return;
+      }
+      $scope.query.page += 1;
+
+      AllPollsService.feed($scope.query).then(function(polls) {
+        $scope.pollsFeed = polls;
+        $scope.$broadcast('scroll.infiniteScrollComplete');
       });
     };
+
+    $scope.$on('$stateChangeSuccess', function() {
+      $scope.loadMore();
+    });
 
     $scope.updateVote = function(pollId, pollOptionId, voted) {
       if (voted) { return; }
