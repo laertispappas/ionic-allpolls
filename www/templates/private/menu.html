@@ -3,15 +3,42 @@
     <ion-nav-bar class="bar-stable nav-title-slide-ios7">
       <ion-nav-back-button class="button-icon icon ion-ios7-arrow-back"><i class="ion-arrow-left-c"></i> Back</ion-nav-back-button>
       <ion-nav-buttons side="right">
-        <div class="buttons" ng-click="openNewPollModal()">
-          <button class="button button-positive">New Poll</button>
-          <button class="button button-icon button-clear ion-android-more-vertical" menu-toggle="right">
-          </button>
-        </div>
+        <button class="button button-icon button-clear ion-android-more-vertical" menu-toggle="right">
+        </button>
       </ion-nav-buttons>
     </ion-nav-bar>
 
     <ion-nav-view name="menuPrivateContent" animation="slide-left-right">
+      <ion-nav-buttons side="left">
+        <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
+      </ion-nav-buttons>
+
+      <div class="buttons" ng-click="openNewPollModal()">
+        <div class="float-button">
+            <span class="height-fix">
+              <a ui-sref="add-trip" class="content">
+                <i class="ion-plus-round"> </i>
+              </a>
+            </span>
+        </div>
+      </div>
+      <ion-tabs class="tabs-icon-top tabs-balanced">
+        <ion-tab title="Feed" icon="ion-home" ui-sref="private.feed">
+          <ion-nav-view name="private-tab-feed"></ion-nav-view>
+        </ion-tab>
+
+        <ion-tab title="Profile" icon="ion-home" ui-sref="private.profile">
+          <ion-nav-view name="private-tab-profile"></ion-nav-view>
+        </ion-tab>
+
+        <ion-tab title="Activity" icon="ion-earth" ui-sref="private.activity">
+          <ion-nav-view name="private-tab-activity"></ion-nav-view>
+        </ion-tab>
+
+        <ion-tab title="Friends" icon="ion-nuclear" ui-sref="private.friends">
+          <ion-nav-view name="private-tab-friends"></ion-nav-view>
+        </ion-tab>
+      </ion-tabs>
     </ion-nav-view>
   </ion-side-menu-content>
 

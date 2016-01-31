@@ -256,12 +256,19 @@ angular.module('starter')
       });
       return;
     }
-  }).controller('ProfilesCtrl', function($scope) {
-    console.log("Profile")
-  }).controller('ActivitiesCtrl', function($scope) {
-    console.log("Activity")
-  }).controller('FriendsCtrl', function($scope) {
-    console.log("Friends")
-  }).controller('GalleriesCtrl', function($scope) {
-    console.log("Galleries")
+  })
+  .controller('ProfilesCtrl', function($scope) {
+    console.log("Profile");
+  })
+  .controller('ActivitiesCtrl', function($scope) {
+    console.log("Activity");
+  })
+  .controller('FriendsCtrl', function($scope) {
+    console.log("Friends");
+  })
+  .controller('GalleriesCtrl', function($scope) {
+    console.log("Galleries");
+  })
+  .controller('FeedsCtrl', function($scope){
+    console.log('Feeds');
   });

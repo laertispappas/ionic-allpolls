@@ -78,7 +78,17 @@ angular.module('starter', ['ionic'])
             'controller': 'ProfilesCtrl'
           }
         }
-      }).state('private.activity', {
+      })
+      .state('private.feed', {
+        url: '/feed',
+        views: {
+          'menuPrivateContent': {
+            'templateUrl': 'templates/private/feed.html',
+            controller: 'FeedsCtrl'
+          }
+        }
+      })
+      .state('private.activity', {
         url: '/activity',
         views: {
           'menuPrivateContent': {
@@ -86,7 +96,8 @@ angular.module('starter', ['ionic'])
             controller: 'ActivitiesCtrl'
           }
         }
-      }).state('private.friends', {
+      })
+      .state('private.friends', {
         url: '/friends',
         views: {
           'menuPrivateContent': {
@@ -94,7 +105,8 @@ angular.module('starter', ['ionic'])
             controller: 'FriendsCtrl'
           }
         }
-      }).state('private.gallery', {
+      })
+      .state('private.gallery', {
         url: '/gallery',
         views: {
           'menuPrivateContent': {
